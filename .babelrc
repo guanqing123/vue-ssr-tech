@@ -1,0 +1,9 @@
+//vue 也可以支持写 jsx 方法
+{
+  "presets": [
+    "env"
+  ],
+  "plugins": [
+    "transform-vue-jsx" // 专门处理 vue 里面的 jsx
+  ]
+}

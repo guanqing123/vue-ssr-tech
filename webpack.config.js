@@ -19,6 +19,10 @@ const config = {
                 loader: 'vue-loader'
             },
             {
+                test: /\.jsx$/,
+                loader: 'babel-loader'
+            },
+            {
                 test: /\.css$/,
                 use: [
                     'style-loader',
@@ -43,6 +47,12 @@ const config = {
                 use: [
                     'style-loader',
                     'css-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: true //因为stylus-loader会生成sourceMap,postcss-loader也会生成sourceMap,当stylus-loader生成sourceMap之后,postcss-loader可以直接拿过来用,
+                        }
+                    },
                     'stylus-loader'
                 ]
             }
