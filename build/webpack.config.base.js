@@ -1,5 +1,6 @@
 // path 是 nodejs 里面的一个基本包
 const path = require('path')
+const createVueLoaderOptions = require('./vue-loader.config')
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -14,7 +15,8 @@ const config = {
         rules: [
             {
                 test: /\.vue$/,
-                loader: 'vue-loader'
+                loader: 'vue-loader',
+                options: createVueLoaderOptions(isDev)
             },
             {
                 test: /\.jsx$/,

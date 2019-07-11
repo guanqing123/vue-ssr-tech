@@ -39,7 +39,7 @@ if (isDev){
                 {
                     test: /\.styl/,
                     use: [
-                        'style-loader',
+                        'vue-style-loader',
                         'css-loader',
                         {
                             loader: 'postcss-loader',
@@ -73,7 +73,7 @@ if (isDev){
                 {
                     test: /\.styl/,
                     use: ExtractPlugin.extract({
-                        fallback: 'style-loader', //style-loader的作用:其实就是把css-loader处理出来的内容,在外面包裹一层js,这层js代码就是把css代码写到html里面去
+                        fallback: 'vue-style-loader', //style-loader的作用:其实就是把css-loader处理出来的内容,在外面包裹一层js,这层js代码就是把css代码写到html里面去
                         use: [
                             'css-loader',
                             {
