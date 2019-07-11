@@ -2,6 +2,7 @@
 const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
+const ExtractPlugin = require('extract-text-webpack-plugin')
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -9,7 +10,7 @@ const config = {
     target: 'web',
     entry: path.join(__dirname, 'src/index.js'),
     output: {
-        filename: 'bundle.js',
+        filename: 'bundle.[hash:8].js',
         path: path.join(__dirname, 'dist')
     },
     module: {
@@ -41,20 +42,6 @@ const config = {
                         }
                     }
                 ]
-            },
-            {
-                test: /\.styl/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            sourceMap: true //因为stylus-loader会生成sourceMap,postcss-loader也会生成sourceMap,当stylus-loader生成sourceMap之后,postcss-loader可以直接拿过来用,
-                        }
-                    },
-                    'stylus-loader'
-                ]
             }
         ]
     },
@@ -70,6 +57,20 @@ const config = {
 }
 
 if (isDev){
+    config.module.rules.push({
+        test: /\.styl/,
+        use: [
+            'style-loader',
+            'css-loader',
+            {
+                loader: 'postcss-loader',
+                options: {
+                    sourceMap: true //因为stylus-loader会生成sourceMap,postcss-loader也会生成sourceMap,当stylus-loader生成sourceMap之后,postcss-loader可以直接拿过来用,
+                }
+            },
+            'stylus-loader'
+        ]
+    }),
     //浏览器调试的时候,把编译的es6的语法转成可读的js内容,方便调试
     config.devtool = '#cheap-module-eval-source-map',
     config.devServer = { //webpack2 以后才加入的 devServer
@@ -85,6 +86,37 @@ if (isDev){
         // 热更新的两个插件
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin()
+    )
+} else {
+    config.entry = {
+        app: path.join(__dirname, 'src/index.js'),
+        vendor: ['vue']
+    }
+    config.output.filename = '[name].[chunkhash:8].js' //如果这里使用 hash,那么整个应用打包出来的js都是一个hash,如果使用chunkhash,那么会为每一个chunk生成一个hash
+    config.module.rules.push({
+        test: /\.styl/,
+        use: ExtractPlugin.extract({
+            fallback: 'style-loader', //style-loader的作用:其实就是把css-loader处理出来的内容,在外面包裹一层js,这层js代码就是把css代码写到html里面去
+            use: [
+                'css-loader',
+                {
+                    loader: 'postcss-loader',
+                    options: {
+                        sourceMap: true
+                    }
+                },
+                'stylus-loader'
+            ]
+        })
+    })
+    config.plugins.push(
+        new ExtractPlugin('styles.[contentHash:8].css'),
+        new webpack.optimize.CommonsChunkPlugin({  //把 vue 单独打包到一个文件,因为业务代码经常变,框架文件不会变
+            name: 'vendor'
+        }),
+        new webpack.optimize.CommonsChunkPlugin({ //把 webpack 相关的代码打包到一个单独的文件里面
+            name: 'runtime'
+        })
     )
 }
 
