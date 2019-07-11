@@ -40,7 +40,15 @@ if (isDev){
                     test: /\.styl/,
                     use: [
                         'vue-style-loader',
-                        'css-loader',
+                        // 'css-loader',
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                // 开启了 css module 的模式
+                                module: true,
+                                localIdentName: isDev ? '[path]-[name]-[hash:base64:5]' : '[hash:base64:5]'
+                            }
+                        },
                         {
                             loader: 'postcss-loader',
                             options: {
