@@ -15,11 +15,11 @@
     // console.log(Header.__docs)
 
     export default {
-        components: {
-            Header,
-            Footer,
-            Todo
-        }
+      components: {
+        Header,
+        Footer,
+        Todo
+      }
     }
 </script>
 
