@@ -1,5 +1,6 @@
 // path 是 nodejs 里面的一个基本包
 const path = require('path')
+const { VueLoaderPlugin } = require('vue-loader')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
@@ -15,7 +16,8 @@ const defaultPluins = [
             NODE_DEV: isDev ? '"development"' : '"production"'
         }
     }),
-    new htmlWebpackPlugin()
+    new htmlWebpackPlugin(),
+    new VueLoaderPlugin()
 ]
 
 const devServer = { //webpack2 以后才加入的 devServer
@@ -55,15 +57,15 @@ if (isDev){
         devServer,
         plugins: defaultPluins.concat([
             // 热更新的两个插件
-            new webpack.HotModuleReplacementPlugin(),
-            new webpack.NoEmitOnErrorsPlugin()
+            new webpack.HotModuleReplacementPlugin()
+            // new webpack.NoEmitOnErrorsPlugin()  webpack4已经取消掉了
         ])
     })
 } else {
     config = merge(baseConfig, {
         entry: {
             app: path.join(__dirname, '../client/index.js'),
-            vendor: ['vue']
+            // vendor: ['vue']  webpack3 的配置,webpack4取消了
         },
         output: {
             filename: '[name].[chunkhash:8].js' //如果这里使用 hash,那么整个应用打包出来的js都是一个hash,如果使用chunkhash,那么会为每一个chunk生成一个hash
@@ -88,14 +90,21 @@ if (isDev){
                 }
             ]
         },
+        optimization: {
+          splitChunks : {
+            chunks: 'all'
+          },
+          runtimeChunk: true
+        },
         plugins: defaultPluins.concat([
-            new ExtractPlugin('styles.[contentHash:8].css'),
-            new webpack.optimize.CommonsChunkPlugin({  //把 vue 单独打包到一个文件,因为业务代码经常变,框架文件不会变
-                name: 'vendor'
-            }),
-            new webpack.optimize.CommonsChunkPlugin({ //把 webpack 相关的代码打包到一个单独的文件里面
-                name: 'runtime'
-            })
+            // webpack4 contentHash:8 改 hash:8
+            new ExtractPlugin('styles.[hash:8].css'),
+            // new webpack.optimize.CommonsChunkPlugin({  //把 vue 单独打包到一个文件,因为业务代码经常变,框架文件不会变
+            //     name: 'vendor'
+            // }),
+            // new webpack.optimize.CommonsChunkPlugin({ //把 webpack 相关的代码打包到一个单独的文件里面
+            //     name: 'runtime'
+            // })
         ])
     })
 }
