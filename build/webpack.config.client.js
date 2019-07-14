@@ -1,6 +1,6 @@
 // path 是 nodejs 里面的一个基本包
 const path = require('path')
-const { VueLoaderPlugin } = require('vue-loader')
+const { VueLoaderPlugin } = require('vue-loader') //webpack4
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
@@ -17,7 +17,7 @@ const defaultPluins = [
         }
     }),
     new htmlWebpackPlugin(),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin() // webpack4 新增
 ]
 
 const devServer = { //webpack2 以后才加入的 devServer
@@ -90,6 +90,7 @@ if (isDev){
                 }
             ]
         },
+        // webpack4 新增
         optimization: {
           splitChunks : {
             chunks: 'all'
@@ -99,6 +100,7 @@ if (isDev){
         plugins: defaultPluins.concat([
             // webpack4 contentHash:8 改 hash:8
             new ExtractPlugin('styles.[hash:8].css'),
+            // webpack4 取消下面
             // new webpack.optimize.CommonsChunkPlugin({  //把 vue 单独打包到一个文件,因为业务代码经常变,框架文件不会变
             //     name: 'vendor'
             // }),
