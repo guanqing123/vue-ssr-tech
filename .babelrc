@@ -4,6 +4,7 @@
     "@babel/preset-env"
   ],
   "plugins": [
-    "transform-vue-jsx" // 专门处理 vue 里面的 jsx
+    "transform-vue-jsx", // 专门处理 vue 里面的 jsx
+    "syntax-dynamic-import"
   ]
 }

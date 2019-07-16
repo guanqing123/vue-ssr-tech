@@ -28,9 +28,25 @@ import Item from './item.vue'
 import Tabs from './tabs.vue'
 let id = 0
 export default {
+  beforeRouteEnter (to, from, next) {
+    console.log('todo before enter, this.id>' + this)
+    next(vm => {
+      console.log('todo before enter, vm.id > ' + vm.id)
+    })
+  },
+  beforeRouteUpdate (to, from, next) {
+    console.log('todo before update ')
+    next()
+  },
+  beforeRouteLeave (to, from, next) {
+    console.log('todo before leave')
+    if (global.confirm('are you sure?')) {
+      next()
+    }
+  },
   props: ['id'],
   mounted () {
-    console.log('id > ' + this.id)
+    console.log('todo mounted')
   },
   components: {
     Item,
