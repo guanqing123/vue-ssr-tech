@@ -16,7 +16,9 @@ const defaultPluins = [
             NODE_DEV: isDev ? '"development"' : '"production"'
         }
     }),
-    new htmlWebpackPlugin(),
+    new htmlWebpackPlugin({
+      template: path.join(__dirname, 'template.html')
+    }),
     new VueLoaderPlugin() // webpack4 新增
 ]
 
@@ -25,6 +27,10 @@ const devServer = { //webpack2 以后才加入的 devServer
     host: '0.0.0.0', //设置这个的好处 我们可以通过localhost,或者内网ip进行访问；如果设置成localhost,通过ip是访问不了的。
     overlay: { //在webpack编译过程中,如果有任何错误,都让它显示到网页上面
         errors: true
+    },
+    historyApiFallback: {
+      // index: '/public/index.html' // output.publicPath = 'public' 这里就得加 /public
+      index: '/public/index.html'
     },
     //open: true, //webpack-dev-server 启动的时候默认帮我们打开浏览器
     hot: true, //修改代码,只重新渲染这个组件,不会让整个页面都重新渲染

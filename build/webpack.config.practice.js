@@ -33,7 +33,7 @@ let config
 
 config = merge(baseConfig, {
   entry: path.join(__dirname,'../practice/index.js'),
-  //浏览器调试的时候,把编译的es6的语法转成可读的js内容,方便调试
+  //浏览器调试的时候,把编译的es6的语法转成可读的js内容,方便调试 webpack4 可以不用设置
   devtool: '#cheap-module-eval-source-map',
   module: {
     rules: [
