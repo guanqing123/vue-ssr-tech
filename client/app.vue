@@ -4,6 +4,8 @@
         <Header></Header>
         <!--<router-link :to="{name: 'app'}">app</router-link>-->
         <!--<router-link to="/app/123">app</router-link>-->
+        <p>{{count}}</p>
+        <router-link to="/slide">slide</router-link>
         <router-link to="/app/123">app123</router-link>
         <router-link to="/app/456">app456</router-link>
         <router-link to="/login">login</router-link>
@@ -30,7 +32,17 @@
         // Todo
       },
       mounted () {
-        console.log(this.$route)
+        // console.log(this.$route)
+        console.log(this.$store)
+        let i = 1
+        setInterval(() => {
+          this.$store.commit('updateCount', i++)
+        }, 1000)
+      },
+      computed: {
+        count () {
+          return this.$store.state.count
+        }
       }
     }
 </script>

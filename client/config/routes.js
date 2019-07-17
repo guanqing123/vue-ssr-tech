@@ -4,7 +4,11 @@
 export default [
   {
     path: '/',
-    redirect: '/app'
+    redirect: '/app/123'
+  },
+  {
+    path: '/slide',
+    component: () => import('../views/slide/slide.vue')
   },
   {
     path: '/app/:id', // /app/xxx
