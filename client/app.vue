@@ -5,8 +5,13 @@
         <!--<router-link :to="{name: 'app'}">app</router-link>-->
         <!--<router-link to="/app/123">app</router-link>-->
         <!--<p>{{count}}</p>-->
-        <p>{{counter}}</p>
-        <p>{{fullName}}</p>
+        <p>count: {{counter}}</p>
+        <p>fullName: {{fullName}}</p>
+        <!--<p>{{text_A_B}}</p>-->
+        <p>textA:{{textA}}</p>
+        <p>textB:{{textB}}</p>
+        <p>textC:{{textC}}</p>
+        <p>textPlus: {{textPlus}}</p>
         <router-link to="/slide">slide</router-link>
         <router-link to="/app/123">app123</router-link>
         <router-link to="/app/456">app456</router-link>
@@ -67,21 +72,37 @@ export default {
         num2: 2
       })
     }, 1000)
+    // this.updateText('mutations.a')
+    this['a/updateText']('a/updateText')
+    this['a/add']()
+    this.testAction()
   },
   methods: {
-    ...mapActions(['updateCountAsync']),
-    ...mapMutations(['updateCount'])
+    ...mapActions(['updateCountAsync', 'a/add', 'testAction']),
+    // ...mapMutations(['updateCount', 'updateText'])
+    ...mapMutations(['updateCount', 'a/updateText'])
   },
   computed: {
+    // text_A_B () {
+    //   // return this.$store.state.a.text
+    //   return this.$store.state.b.text
+    // },
     // ...mapState(['count']),
     ...mapState({
       // counter: 'count'
-      counter: (state) => state.count
+      counter: (state) => state.count,
+      textA: (state) => state.a.text,
+      textB: (state) => state.b.text,
+      textC: (state) => state.c.text
     }),
     // count () {
     //   return this.$store.state.count
     // },
-    ...mapGetters(['fullName'])
+    // ...mapGetters(['fullName'])
+    ...mapGetters({
+      fullName: 'fullName',
+      textPlus: 'a/textPlus'
+    })
     // fullName () {
     //   return this.$store.getters.fullName
     // }

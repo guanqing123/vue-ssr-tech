@@ -14,6 +14,12 @@ Vue.use(Vuex)
 const router = createRouter()
 const store = createStore()
 
+store.registerModule('c', {
+  state: {
+    text: 'module c'
+  }
+})
+
 router.beforeEach((to, from, next) => {
   console.log('before each invoked')
   next()
