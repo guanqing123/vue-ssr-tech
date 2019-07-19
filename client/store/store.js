@@ -15,6 +15,11 @@ export default () => {
     mutations,
     getters,
     actions,
+    plugins: [
+      (store) => {
+        console.log('my plugin invoked')
+      }
+    ],
     modules: {
       a: {
         namespaced: true,
@@ -58,13 +63,13 @@ export default () => {
     module.hot.accept([
       './state/state',
       './mutations/mutations',
-      './getters/getters',
-      './actions/actions'
+      './actions/actions',
+      './getters/getters'
     ], () => {
       const newState = require('./state/state').default
       const newMutations = require('./mutations/mutations').default
-      const newGetters = require('./getters/getters').default
       const newActions = require('./actions/actions').default
+      const newGetters = require('./getters/getters').default
 
       store.hotUpdate({
         state: newState,

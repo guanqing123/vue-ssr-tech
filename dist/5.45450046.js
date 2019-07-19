@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[5],{30:function(i,e,n){"use strict";n.r(e);var t=function(){var i=this.$createElement;return(this._self._c||i)("div",[this._v("this is login page")])};t._withStripped=!0;var s={name:"login"},l=n(0),o=Object(l.a)(s,t,[],!1,null,"ac1f3f28",null);o.options.__file="client/views/login/login.vue";e.default=o.exports}}]);

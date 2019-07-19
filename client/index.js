@@ -14,10 +14,29 @@ Vue.use(Vuex)
 const router = createRouter()
 const store = createStore()
 
+// 动态注册模块
 store.registerModule('c', {
   state: {
     text: 'module c'
   }
+})
+
+// store 解绑模块
+// store.unregisterModule('c')
+
+// state.count 有变化, watch方法才会被触发
+// store.watch((state) => state.count + 1, (newCount) => {
+//   console.log('new count watched:', newCount)
+// })
+
+// store.subscribe((mutation, state) => {
+//   console.log(mutation.type)
+//   console.log(mutation.payload)
+// })
+
+store.subscribeAction((action, state) => {
+  console.log(action.type)
+  console.log(action.payload)
 })
 
 router.beforeEach((to, from, next) => {
