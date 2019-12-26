@@ -30,7 +30,7 @@ const devServer = { //webpack2 以后才加入的 devServer
     },
     historyApiFallback: {
       // index: '/public/index.html' // output.publicPath = 'public' 这里就得加 /public
-      index: '/index.html'
+      index: '/public/index.html'
     },
     //open: true, //webpack-dev-server 启动的时候默认帮我们打开浏览器
     hot: true, //修改代码,只重新渲染这个组件,不会让整个页面都重新渲染
